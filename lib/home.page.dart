@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:powerloom/taar.calculator.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -11,16 +12,35 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _formKey = GlobalKey<FormState>();
   var calculators = ["Taar Counter", "Kon Counter", "Final Counter"];
 
-  void _incrementCounter() {
-    setState(() {});
-  }
-
   void _onTapListView(String calculator) {
-    Fluttertoast.showToast(msg: 'clicked: $calculator' , toastLength: Toast.LENGTH_SHORT);
-    Scaffold.of(context).showSnackBar(SnackBar(content: Text('Hello')));
-    // showDialog(context: context);
+    Fluttertoast.showToast(
+        msg: 'clicked: $calculator', toastLength: Toast.LENGTH_SHORT);
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text(calculator),
+            content: Form(
+              key: _formKey,
+              child: TaarCalculator(),
+              autovalidate: true,
+            ),
+            actions: <Widget>[
+              // usually buttons at the bottom of the dialog
+              new FlatButton(
+                child: new Text("Close"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        });
   }
 
   @override
