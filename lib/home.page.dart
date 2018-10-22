@@ -33,7 +33,13 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
               // usually buttons at the bottom of the dialog
               new FlatButton(
-                child: new Text("Close"),
+                child: new Text("CANCEL"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              new FlatButton(
+                child: new Text("OK"),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
