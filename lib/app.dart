@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:powerloom/home.page.dart';
+import 'package:powerloom/calculator.model.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new MyHomePage(title: 'Power Loom Counters'),
+      home: new MyHomePage(title: 'Power Loom Counters', calculators:  calculators,),
     );
   }
 }

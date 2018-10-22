@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:powerloom/taar.calculator.dart';
+import 'package:powerloom/calculator.model.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  List<Calculator> calculators;
 
+  MyHomePage({Key key, this.title, @required this.calculators})
+      : super(key: key);
   final String title;
 
   @override
@@ -13,9 +16,16 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _formKey = GlobalKey<FormState>();
-  var calculators = ["Taar Counter", "Kon Counter", "Final Counter"];
 
-  void _onTapListView(String calculator) {
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      widget.calculators;
+    });
+  }
+
+  void _onTapListView(Calculator calculator, int index) {
     Fluttertoast.showToast(
         msg: 'clicked: $calculator', toastLength: Toast.LENGTH_SHORT);
 
@@ -24,10 +34,10 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context) {
           // return object of type Dialog
           return AlertDialog(
-            title: new Text(calculator),
+            title: new Text(calculator.name()),
             content: Form(
               key: _formKey,
-              child: TaarCalculator(),
+              child: TaarCalculator(calculator: calculator),
               autovalidate: true,
             ),
             actions: <Widget>[
@@ -41,6 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
               new FlatButton(
                 child: new Text("OK"),
                 onPressed: () {
+                  setState(() {
+                    calculators[index] = calculator;
+                  });
                   Navigator.of(context).pop();
                 },
               ),
@@ -59,12 +72,13 @@ class _MyHomePageState extends State<MyHomePage> {
         child: ListView.builder(
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                title: Text(calculators[index]),
-                subtitle: Text('subtitle'),
-                onTap: () => _onTapListView(calculators[index]),
+                title: Text(widget.calculators[index].name()),
+                subtitle: Text(
+                    'Results:' + widget.calculators[index].result.toString()),
+                onTap: () => _onTapListView(widget.calculators[index], index),
               );
             },
-            itemCount: calculators.length),
+            itemCount: widget.calculators.length),
       ),
     );
   }

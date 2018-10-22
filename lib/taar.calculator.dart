@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:powerloom/calculator.model.dart';
 
 class TaarCalculator extends StatefulWidget {
-  TaarCalculator();
+  final Calculator calculator;
+
+  TaarCalculator({this.calculator});
 
   @override
   _TaarCalculatorState createState() => new _TaarCalculatorState();
@@ -9,15 +12,12 @@ class TaarCalculator extends StatefulWidget {
 
 class _TaarCalculatorState extends State<TaarCalculator> {
   final int TAAR_CONST = 4;
-  double _result;
-  int _val1;
-  double _val2;
 
   void _onVal1Update(String val) {
     try {
-      _val1 = int.parse(val);
+      widget.calculator.value1 = int.parse(val);
     } catch (e) {
-      _val1 = 0;
+      widget.calculator.value1 = 0;
     }
 
     calculate();
@@ -25,22 +25,23 @@ class _TaarCalculatorState extends State<TaarCalculator> {
 
   void _onVal2Update(String val) {
     try {
-      _val2 = double.parse(val);
+      widget.calculator.value2 = double.parse(val);
     } catch (e) {
-      _val2 = 0.0;
+      widget.calculator.value2 = 0.0;
     }
     calculate();
   }
 
   void calculate() {
-    setState(() => this._result = (TAAR_CONST * _val2) + _val1);
+    setState(() => widget.calculator.result =
+        (TAAR_CONST * widget.calculator.value2) + widget.calculator.value1);
   }
 
   @override
   void initState() {
     super.initState();
     setState(() {
-      _result = 0.0;
+      widget.calculator.result = 0.0;
     });
   }
 
@@ -63,7 +64,7 @@ class _TaarCalculatorState extends State<TaarCalculator> {
                   TextInputType.numberWithOptions(signed: false, decimal: true),
               onChanged: _onVal2Update,
             ),
-            new Text('Total: $_result'),
+            new Text('Total: ' + widget.calculator.result.toString()),
           ],
         ));
   }
