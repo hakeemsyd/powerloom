@@ -34,7 +34,7 @@ class _TaarCalculatorState extends State<TaarCalculator> {
 
   void calculate() {
     setState(() => widget.calculator.result =
-        (TAAR_CONST * widget.calculator.value2) + widget.calculator.value1);
+        (TAAR_CONST + widget.calculator.value2) * widget.calculator.value1);
   }
 
   @override
